@@ -35,13 +35,13 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::post('import', [PersonalController::class, 'import']);
     Route::post('listarPersonal', [PersonalController::class, 'index']);
     Route::post('storePersonal', [PersonalController::class, 'store']);
-    Route::put('updatePersonal/{id}', [PersonalController::class, 'update']);
+    Route::post('updatePersonal/{id}', [PersonalController::class, 'update']);
     Route::delete('deletePersonal/{id}', [PersonalController::class, 'destroy']);
    
 
     Route::post('listarEstudiantes', [StudentController::class, 'index']);
     Route::post('storeEstudiante', [StudentController::class, 'store']);
-    Route::put('updateEstudiante/{id}', [StudentController::class, 'update']);
+    Route::post('updateEstudiante/{id}', [StudentController::class, 'update']);
     Route::delete('deleteEstudiante/{id}', [StudentController::class, 'destroy']);
     
 
