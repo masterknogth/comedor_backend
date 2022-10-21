@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('cedula');
             $table->string('apellidos');
             $table->string('nombres');
-            $table->integer("departamento")->unsigned()->index();
+            $table->integer("departamento")->unsigned()->index()->nullable();
             $table->foreign("departamento")->references("code")->on("departaments")->onDelete('CASCADE');
             $table->string('tipo');
             $table->string('fecha');

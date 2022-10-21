@@ -11,18 +11,19 @@ use App\Models\Student;
 use App\Models\Report;
 
 
+
 class AssistController extends Controller
 {
     
 
     public function readCarnet(Request $request)
     {
-       // return $request->codigo;
-        //$id = '20BJ75A22';
-        //$id = '20bj75a22'; 
-       // $id = '1YUX32E12'; 
-        //$id='106439';
-       //$id='2497514';
+        date_default_timezone_set('America/caracas');
+        $today = date('d-m-Y');
+        $consulta = Assist::latest()->first();
+        if($consulta && $consulta->fecha != $today){
+            Assist::query()->delete();    
+        }
         $id = $request->codigo;
         if(preg_match('/A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z/', $id)) {
                       
@@ -30,15 +31,19 @@ class AssistController extends Controller
 
             $codecimal =base_convert ( substr($id ,0, -3), 36 , 10 ); //converto el codigo  a decimal
             $ced=substr($codecimal,1);// elimino el primer caracter pues ese no hace falta
-            $num= (int)$ced;//convierto la cedula decodificada en un entero para ser leido 
+            $num = (int)$ced;//convierto la cedula decodificada en un entero para ser leido 
             
-            $assist = Assist::where('cedula', $id)->first();
-            $personal = Personal::where('cedula', $id)->first();       
-            $student = Student::where('cedula', $id)->first();
+            $assist = Assist::where('cedula', $num)->first();
+            $personal = Personal::where('cedula', $num)->first();       
+            $student = Student::where('cedula', $num)->first();
         
             if($assist){
                 $personal->departament;
-                return response()->json(['data'=>$assist],200);
+                return response()->json([
+                    'data'=>$assist,
+                    'message' => 'Este usuario ya hizo uso del comedor',
+                    'error' => true
+                ],200);
             }
             if($personal){
                 $this->insertAssists($personal);
@@ -52,13 +57,17 @@ class AssistController extends Controller
                 $student->departament;
                 return response()->json(['data'=>$student],200);
             }
-            return response()->json(['data'=>'no existe usuario'],200);
+            return response()->json([
+                'data'=>'no existe usuario',
+                'message' => 'Este no usuario Existe',
+                'error' => true
+            ],200);
 
         }else{
             //"NO DE CODIFICA PORQUE PONES LA CI DIRECTA <br>";
-            $assist = Assist::where('cedula', $id)->first();
-            $personal = Personal::where('cedula', $id)->first();       
-            $student = Student::where('cedula', $id)->first();
+            $assist = Assist::where('cedula', $id )->first();
+            $personal = Personal::where('cedula', $id )->first();       
+            $student = Student::where('cedula', $id )->first();
         
             if($assist){
                 $assist->departament;

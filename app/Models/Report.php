@@ -11,4 +11,7 @@ class Report extends Model
     public function departament(){
         return $this->belongsTo(Departament::class,'departamento', 'code');
     }
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

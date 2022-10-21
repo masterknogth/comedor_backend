@@ -105,9 +105,11 @@ class PersonalController extends Controller
     }
 
     public function store(Request $request){
-        $rules = [
-            //'cedula' => 'required|string|max:255|unique:personal',
-            'cedula' => 'unique:personals',
+        $rules = [          
+            'cedula' => 'integer|required|unique:personals',
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'tipo' => 'required',
         ];
 
         $validator = \Validator::make($request->all(), $rules);
@@ -129,7 +131,10 @@ class PersonalController extends Controller
     {
     
         $rules = [
-            'cedula' => 'unique:personals,cedula,'.$id,
+            'cedula' => 'integer|required|unique:personals,cedula,'.$id,
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'tipo' => 'required',
         ];
 
         $validator = \Validator::make($request->all(), $rules);

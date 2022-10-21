@@ -2,5 +2,10 @@
 agregar estos valores en el php.ini
 
 max_file_uploads = 6000
-memory_limit = 200M
-post_max_size = 200M
+memory_limit = 900M
+post_max_size = 900M
+
+max_input_vars = 100000
+
+
+reinciar el pc para que funcione

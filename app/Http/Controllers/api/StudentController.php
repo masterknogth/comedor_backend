@@ -33,8 +33,9 @@ class StudentController extends Controller
 
     public function store(Request $request){
         $rules = [
-            //'cedula' => 'required|string|max:255|unique:personal',
-            'cedula' => 'unique:students',
+            'cedula' => 'integer|required|unique:students',
+            'nombres' => 'required',
+            'apellidos' => 'required',
         ];
 
         $validator = \Validator::make($request->all(), $rules);
@@ -42,7 +43,7 @@ class StudentController extends Controller
             return response()->json(['created' => false, 'error' => $validator->errors()], 422);
         }
 
-        $estudiante = new Personal;
+        $estudiante = new Student;
 
         if( $estudiante->create( $request->all() ) ){
             return response()->json(['data'=>"estudiante Registrado"],200);
@@ -56,7 +57,9 @@ class StudentController extends Controller
     {
     
         $rules = [
-            'cedula' => 'unique:students,cedula,'.$id,
+            'cedula' => 'integer|required|unique:students,cedula,'.$id,
+            'nombres' => 'required',
+            'apellidos' => 'required',
         ];
 
         $validator = \Validator::make($request->all(), $rules);

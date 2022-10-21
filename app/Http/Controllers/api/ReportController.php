@@ -34,7 +34,7 @@ class ReportController extends Controller
 
 
         $reportes = $reportes
-        ->with(['departament'])
+        ->with(['departament','user'])
         ->paginate($request->perPage);
         if(sizeof($reportes) == 0)
         {
@@ -45,7 +45,7 @@ class ReportController extends Controller
     }
     public function countReport(Request $request)
     {
-        //return response()->json(['data'=>$request->all()],200);
+      
         date_default_timezone_set('America/caracas');
         if (!is_null($request->fecha)) {
             $date = date("d-m-Y", strtotime($request->fecha));
@@ -72,6 +72,9 @@ class ReportController extends Controller
             $obrero,
            // $total
         ];
-        return response()->json(['data'=>$data],200);
+        return response()->json([
+            'data'=>$data,
+            'fecha' =>date("Y-m-d", strtotime($date))
+        ],200);
     }
 }
