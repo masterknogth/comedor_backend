@@ -9,6 +9,7 @@ use App\Http\Controllers\api\StudentController;
 use App\Http\Controllers\api\ReportController;
 use App\Http\Controllers\api\PersonalImageController;
 use App\Http\Controllers\api\StudentImageController;
+use App\Http\Controllers\api\ConfigurationController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,11 +24,15 @@ use App\Http\Controllers\api\StudentImageController;
 /*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });*/
+
 Route::controller(UserController::class)->group(function(){
     Route::post('register', 'register');
     Route::post('login', 'login');
     Route::get('test/{id}', 'testApi');
 });
+
+Route::get('get-template', [ConfigurationController::class, 'getTemplate']);
+
 Route::middleware('auth:sanctum')->group( function () {
     Route::post('readCarnet', [AssistController::class, 'readCarnet']);
     Route::get('count', [AssistController::class, 'count']);
@@ -52,6 +57,8 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::post('impotarFotosPersonal', [PersonalImageController::class, 'impotarPersonalFoto']);
 
     Route::post('listarFotosEstudiante', [StudentImageController::class, 'index']);
-    Route::post('impotarFotosEstudiante', [StudentImageController::class, 'impotarEstudianteFoto']);
+    Route::post('impotarFotosEstudiante', [StudentImageController::class, 'impotarEstudianteFoto']); 
+
+    Route::post('cambiar-template/{id}', [ConfigurationController::class, 'changeTemplate']);
     
 });
