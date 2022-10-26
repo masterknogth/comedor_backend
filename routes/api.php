@@ -55,6 +55,7 @@ Route::middleware('auth:sanctum')->group( function () {
 
     Route::post('listarFotosPersonal', [PersonalImageController::class, 'index']);
     Route::post('impotarFotosPersonal', [PersonalImageController::class, 'impotarPersonalFoto']);
+    Route::post('queue', [PersonalImageController::class, 'queue']);
 
     Route::post('listarFotosEstudiante', [StudentImageController::class, 'index']);
     Route::post('impotarFotosEstudiante', [StudentImageController::class, 'impotarEstudianteFoto']); 

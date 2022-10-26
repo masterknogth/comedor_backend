@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use App\Models\PersonalImage;
 use App\Models\Personal;
+use App\Models\Job;
+use App\Models\QueuesImports;
+
+use App\Jobs\Logger;
 
 
 class PersonalImageController extends Controller
@@ -64,6 +68,49 @@ class PersonalImageController extends Controller
         return response()->json(['data' => 'Fotos importadas'], 200);
         
         
+    }
+
+    public function queue(Request $request)
+    {
+        /*$job = QueuesImports::where('name','fotos_personal')->first();
+        
+        if($job){
+
+        }else{
+            \Artisan::call('personal:photos');
+        }*/
+
+    
+        
+        //Logger::dispatch()->onConnection('database');
+        $job = Job::where('queue', 'default')->first();
+        
+        if($job){
+            //return response()->json(['data' => 'si hay'], 200);
+            //\Artisan::queue('queue:work');
+            //\Artisan::call('queue:work');
+            /*
+                Artisan::call('email:send', [
+                    'user' => 1, '--queue' => 'default'
+                ]);
+                Artisan::queue('email:send', [
+                    'user' => 1, '--queue' => 'default'
+                ]);
+            */
+        
+            
+        }else{
+            //Logger::dispatch();
+            Logger::dispatch()->onQueue('personalPhoto');
+            
+        }
+
+        
+        //Logger::dispatch()->onQueue('secondary');
+        //\Artisan::queue('queue:work');
+        //\Artisan::call('queue:work');
+        
+        return response()->json(['data' => 'Fotos importadas'], 200);
     }
 }
 
